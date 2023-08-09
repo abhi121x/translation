@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RNA to Protein Translation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #afb07e;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #afb07e
+            box-shadow: 0 0 10px rgba(117, 10, 180, 0.1);
+            border-radius: 5px;
+        }
+
+        h1, h2 {
+            color: #b90c0c;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #5f0ae9;
+            font-size: 20px;
+        }
+
+        input[type="text"] {
+           
+            background-color: rgb(228, 204, 172);
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #11c508;
+            border-radius: 3px;
+        }
+
+        button {
+            margin-top: 10px;
+            margin-left: 40%;
+            padding: 15px 20px;
+            background-color: #007bff;
+            color: #95f309;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #30c455;
+        }
+
+        #protein-sequence {
+           
+            height: 13px;
+            margin-top: 20px;
+            text-decoration: double;
+            
+            padding: 12px;
+            border: 1px solid #cd2020;
+            border-radius: 10px;
+            background-color: #6eaeea;
+            font-size: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>RNA to Protein Translation</h1>
+        
+        <form id="translation-form">
+            <label for="rna-sequence">Enter RNA sequence:</label>
+            <input type="text" id="rna-sequence" name="rna-sequence" required>
+            <button type="submit">Translate</button>
+        </form>
+        
+        <h2>Protein Sequence:</h2>
+        <div id="protein-sequence"></div>
+    </div>
+    
+    <script>
+        const codonToAminoAcid = {
+            // Add your codon-to-amino-acid mappings here
+            "UUU": "F",
+            "UUC": "F",
+            "UUA": "L",
+            "UCU": "S",
+            "UCC": "S",
+            "UCA": "S",
+            "UCG": "S",
+            "UAU": "Y",
+            "UAC": "Y",
+            "UAG": "STOP",
+            "UGU": "C",
+            "UGC": "C",
+            "UGA": "STOP",
+            "UGG": "W",
+            "CUU": "L",
+            "CUC": "L",
+            "CUA": "L",
+            "CUG": "L",
+            "CCU": "P",
+            "CCC": "P",
+            "CCA": "P",
+            "CCG": "P",
+            "CAU": "H",
+            "CAC": "H",
+            "CAA": "Q",
+            "CAG": "Q",
+            "CGU": "R",
+            "CGC": "R",
+            "CGA": "R",
+            "CGG": "R",
+            "AUU": "I",
+            "AUC": "I",
+            "AUA": "I",
+            "AUG": "M",
+            "ACU": "T",
+            "ACC": "T",
+            "ACA": "T",
+            "ACG": "T",
+            "AAU": "N",
+            "AAC": "N",
+            "AAA": "K",
+            "AAG": "K",
+            "AGU": "S",
+            "AGC": "S",
+            "AGA": "R",
+            "AGG": "R",
+            "GUU": "V",
+            "GUC": "V",
+            "GUA": "V",
+            "GUG": "V",
+            "GCU": "A",
+            "GCC": "A",
+            "GCA": "A",
+            "GCG": "A",
+            "GAU": "D",
+            "GAC": "D",
+            "GAA": "E",
+            "GAG": "E",
+            "GGU": "G",
+            "GGC": "G",
+            "GGA": "G",
+            "GGG": "G",
+            
+        };
+        
+        document.getElementById("translation-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const rnaSeq = document.getElementById("rna-sequence").value.toUpperCase();
+            const proteinSeq = translateRNAtoProtein(rnaSeq);
+            document.getElementById("protein-sequence").textContent = proteinSeq;
+        });
+        
+        function translateRNAtoProtein(rnaSeq) {
+            let proteinSeq = "";
+            for (let i = 0; i < rnaSeq.length; i += 3) {
+                if (i + 3 <= rnaSeq.length) {
+                    const codon = rnaSeq.substring(i, i + 3);
+                    const aminoAcid = codonToAminoAcid[codon] || "*";
+                    proteinSeq += aminoAcid;
+                }
+            }
+            return proteinSeq;
+        }
+    </script>
+</body>
+</html>
